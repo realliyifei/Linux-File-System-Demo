@@ -1,7 +1,7 @@
 // NOTES: this code is UNCOMPLETED
 
 // to @Da: continue to fill the three model functions 
-// Question: should us use node pointer likes the example prog.c, I doubt 
+// Question: should we use node pointer likes the example prog.c, I doubt 
 // that I can write a better version than the example if using the same 
 // structure
 
