@@ -3,6 +3,7 @@
  * @Author: YifeLi, FangdaGuo
  * @Date: 5/1/19
  */
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +13,7 @@
 
 //char img_path[500][1000];
 //int img_num=0;
-int readFileList(char *basePath, node *chainHead) //put node head here
+int nameModel_2(char *basePath, node *& chainHead) //put node head here
 {
     //create(&chainHead, "");
     DIR *dir;
@@ -31,9 +32,45 @@ int readFileList(char *basePath, node *chainHead) //put node head here
             continue;
         else if(ptr->d_type == 8)    ///file
             {
-                addnode(chainHead,ptr->d_name)
+                addnode(chainHead,ptr->d_name);
 	      // strcpy(img_path[img_num],basePath);
             //   strcat(img_path[img_num++],ptr->d_name);
+
+	    }
+
+        else 
+        {
+
+	    continue;
+        }
+    }
+    closedir(dir);
+    return 1;
+}
+int timeModel_2(char *basePath, int timeInMin ,node *& chainHead) //put node head here, and time in mins(must be negative)
+{
+    struct stat buff;
+    DIR *dir;
+    struct dirent *ptr;
+    
+    if ((dir=opendir(basePath)) == NULL)
+    {
+        perror("Open dir error...");
+        exit(1);
+    }
+
+    while ((ptr=readdir(dir)) != NULL)
+    {
+        if(strcmp(ptr->d_name,".")==0 || strcmp(ptr->d_name,"..")==0)    ///current dir OR parrent dir
+            continue;
+        else if(ptr->d_type == 8)    ///file
+            {	
+		int result =stat(ptr->d_name, &buf); //?basePath or ptr->d_name?
+		if (((unsigned long)time(NULL)-&buf.st_mtime)<=(timeInmin*60)) //which the modify time is less than timeInMin
+		{
+			addnode(chainHead,ptr->d_name);
+		}
+              
 
 	    }
 
