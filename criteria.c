@@ -22,103 +22,54 @@
  	struct dirent *dir;
     
     // initalize
-    // char* filepath;
  	node *find;
  	createnode(&find, "");
-    
+    node * pointer = find->next;
     // operation
-    d = opendir(name);
-    if(d != NULL)
+    dir = readdir(d);
+    while(dir != NULL)
     {
-        dir = readdir(d);
-        
-        while(dir != NULL)
+        // compare
+        if(strcmp(dir->d_name,name)==0) 
         {
-            // printf("%s\n", dir->d_name);
-            // compare
-            // if(strcmp(dir->d_name,name)) 
-            // {
-            	node* next;
-	            char *newfilepath = dir->d_name;
-	            addnode(&next, newfilepath);
-	            dir = readdir(d);
-            // }
+            char *newfilepath = dir->d_name;
+            addnode(&pointer, newfilepath);
+            dir = readdir(d);
+            pointer = pointer->next;
+        } else {
+			pointer = recurDir(pointer,name,dir->d_name);	
         }
-        closedir(d);
     }
- 	
- //	while(find*!=NULL) {
-	// 	if((strcasestr(find.filepath, name) != NULL)
-	// 	filepath = fide->filepath;
-		
-	// 	if((strcasestr(DIR->data,name))!=NULL) {
-	// 		node
-	// 	}
-	// }
- 	
- 	// return function
+    closedir(d);
+
  	return find;
- 	
 }
 
-/**
- * -mmin: find the files modified within given minutes
- * @Para int min - given minutes
- * @Return pointer node* - point to the first node in the list
- * @Exec - print all directories where the files are
- */
- node* timeModel(node *dir, int min) {
-   
-   	struct stat sb;
-	time_t now = time(NULL);
-	node	*root = malloc(sizeof(node)),
-			*prev = root;
-	int range = abs(min),
-		diff, valid;
-
-
-	while(dir != NULL) {
-		stat(dir->data, &sb);
-		valid = 0;
-
-		diff = now - sb.st_mtime;
-		diff /= 60; // minutes not seconds
-
-		switch(mmin[0]) {
-			case '+': // more than
-				valid = (diff > range);
-				break;
-			case '-': // less than
-				valid = (diff < range);
-				break;
-			default: // exactly
-				valid = (diff == range);
-				break;
-		}
-
-		if(valid) { // keep node
-			prev->next = dir;
-			prev = prev->next;
-		} else { // skip node
-			// free(prev->next);
-			prev->next = NULL;
-		}
-
-		dir = dir->next; // go to next
+node* recurDir(node* n, string name, string searchName) {
+	
+	DIR *d = opendir(fileName);
+	
+	if(d==NULL) {
+		return NULL;
+	} else {
+		struct dirent *dir;
+		dir = readdir(d);
+		while(dir != NULL)
+	    {
+	        // compare
+	        if(strcmp(dir->d_name,name)==0) 
+	        {
+	            char *newfilepath = dir->d_name;
+	            addnode(&pointer, newfilepath);
+	            dir = readdir(d);
+	            pointer = pointer->next;
+	        } else {
+	        	pointer = recurDir(pointer,name,dir->d_name);	
+	        }
+	    }
+	    closedir(d);
 	}
-
-	// nothing if only init node
-	// otherwise, first real node
-	return (root == prev) ? NULL : root->next;
-    
-    // // search files with modified time less than min
-    // if (min<0) {
-        
-    // // search files with modified time more than min    
-    // } else if (min>0) {
-        
-    // }
- }
+}
 
 /**
  * -inum: find the files with given i-node number
