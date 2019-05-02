@@ -1,14 +1,17 @@
-// NOTES: this code is UNFINISHED
+// NOTES: this code is UNCOMPLETED
 
 /** 
  * CS4323 - OperSys - Proj3 - Step2 (Criteria)
  * @Author: YifeLi, FangdaGuo
  * @Date: 4/25/19
+ * @LastModified: 4/29/19
  */
  
 #include <stdio.h>
 #include <dirent.h>
-#include "linkedlist.h"
+typedef char* string;
+
+#include "linkedlist.h" // use node struct created by @Shaw
 
 /**
  * -name: perform a name search
@@ -45,7 +48,7 @@
  	return find;
 }
 
-node* recurDir(node* n, string name, string searchName) {
+node* recurDir(node* pointer, string name, string searchName) {
 	
 	DIR *d = opendir(fileName);
 	
@@ -70,36 +73,6 @@ node* recurDir(node* n, string name, string searchName) {
 	    closedir(d);
 	}
 }
-
-/**
- * -inum: find the files with given i-node number
- * @Para int num - the i-node number
- * @Return pointer node* - point to the first node in the list
- * @Exec - print all directories where the files are
- */
- node* nodeModel(node *dir, unsigned int num) {
-
-    struct stat sb;
-	node	*root = malloc(sizeof(node)),
-			*prev = root;
-
-	while(list != NULL) {
-		stat(list->data, &sb);
-		if(num == sb.st_ino) { // keep node
-			prev->next = list;
-			prev = prev->next;
-		} else { // skip node
-			// free(prev->next);
-			prev->next = NULL;
-		}
-
-		list = list->next; // go to next
-	}
-
-	// nothing if only init node
-	// otherwise, first real node
-	return (root == prev) ? NULL : root->next;
- }
  
 /**
  * MAIN FUNCTION - criteria switcher 
