@@ -13,42 +13,53 @@
 /**
  * -name: perform a name search
  * @para pointer DIR* - the file pointer (from helper function)
+ * @para string name - file name
  * @Return pointer node* - point to the first node in the list
  * @Exec - tranverse and print all directories where the files are
  */
- node* nameModel(node *dir) {
+ node* nameModel(DIR* d, string name) {
+ 	
+ 	struct dirent *dir;
     
-    struct dirent *dp;
+    // initalize
+    // char* filepath;
+ 	node *find;
+ 	createnode(&find, "");
     
-    // search, store, and print the directory containing given file
-    if(dir != NULL) {
-		while ((dp=readdir(dir)) != NULL) {
-			// skip . & .. directories
-			if ( strcmp(dp->d_name, ".") && strcmp(dp->d_name, "..") ) {
-				// path = "dir_name/file_name"
-				string path = malloc(sizeof(char) * (strlen(dir_name) + strlen(dp->d_name) + 1)); // alloc temp full path
-				path = strcpy(path, dir_name); // append dir
-				strcat(path, "/"); // append potential dir
-				strcat(path, dp->d_name);
-
-				// prepare for new node
-				last->next = (node*)malloc(sizeof(node));
-				last = last->next;
-				last->data = path;
-				last->next = read_dir(path); // recursive
-
-				// skip to end
-				while(last->next != NULL)
-					last = last->next;
-			}
-		}
-		closedir(dir);
-	}
-
-	// nothing if only init node
-	// otherwise, first real node
-	return (root == last) ? NULL : root->next;
- } 
+    // operation
+    d = opendir(name);
+    if(d != NULL)
+    {
+        dir = readdir(d);
+        
+        while(dir != NULL)
+        {
+            // printf("%s\n", dir->d_name);
+            // compare
+            // if(strcmp(dir->d_name,name)) 
+            // {
+            	node* next;
+	            char *newfilepath = dir->d_name;
+	            addnode(&next, newfilepath);
+	            dir = readdir(d);
+            // }
+        }
+        closedir(d);
+    }
+ 	
+ //	while(find*!=NULL) {
+	// 	if((strcasestr(find.filepath, name) != NULL)
+	// 	filepath = fide->filepath;
+		
+	// 	if((strcasestr(DIR->data,name))!=NULL) {
+	// 		node
+	// 	}
+	// }
+ 	
+ 	// return function
+ 	return find;
+ 	
+}
 
 /**
  * -mmin: find the files modified within given minutes
