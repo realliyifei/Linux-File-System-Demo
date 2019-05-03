@@ -54,7 +54,9 @@ int create_node(node **new_node, char *new_filepath)
  */
 int add_node(node **tail, char *new_filepath)
 {
-	node *new_tail = NULL;
+	node *new_tail;
+
+	new_tail = NULL;
 
 	if(create_node(&new_tail, new_filepath) == FAILURE)
 	{
@@ -94,6 +96,8 @@ int remove_node()
 int free_list(node *head)
 {
 	node *temp;
+
+	temp = NULL;
 
 	while(head != NULL)
 	{
