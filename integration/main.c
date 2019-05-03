@@ -9,28 +9,23 @@
 
 #define MAXTOKEN 6
 #define MAX_TOKEN_LENGTH 256
-#define TERMINATION 2
-
-char* tokens[MAXTOKEN];
-node* filelist;					
-node* qualified_list;
-
+				
 void prompt_input();
-int get_input();
-int process_input();
+int get_input(char* tokens[]);
+int process_input(char* tokens[]);
 
 void print_instruction();
 int process_find(char* token0);
-int process_location(char* token1);
-int process_criteria(char* token2, char* token3);
-int process_delete(char* token4, char* token5);
+node* process_location(char* token1);
+node* process_criteria(char* token2, char* token3, node* filelist);
+int process_delete(char* token4, char* token5, node* qualified_list);
 
 void prompt_input()
 {
 	print_instruction();
 }
 
-int get_input()   
+int get_input(char* tokens[])   
 {
 	 char user_input[MAXTOKEN * MAX_TOKEN_LENGTH];
 
@@ -43,44 +38,49 @@ int get_input()
 
 	 /* split user input into tokens */
 
+
 	 return SUCCESS;
 }
 
-int process_input()
+int process_input(char* tokens[])
 {	
-	int res;
+	int result;
+	node *filelist, *qualified_list;
+	
+	filelist = NULL	;	
+	qualified_list = NULL;
 
-	if(process_find(tokens[0]) == FAILURE)
+	if(!process_find(tokens[0]) || (filelist = process_location(tokens[1])) == NULL)
 	{
-		return FAILURE;
+		result = FAILURE;
 	}
-
-	if(process_location(tokens[1]) == FAILURE)
-	{
-		return FAILURE;
-	}
-
-	if((res = process_criteria(tokens[2], tokens[3])) == TERMINATION)
+	else if(tokens[2] == NULL)
 	{
 		print_list(filelist);
-		return SUCCESS;
+		result = SUCCESS;
 	}
-	else if(res == FAILURE)
+	else if((qualified_list = process_criteria(tokens[2], tokens[3], filelist)) == NULL)
 	{
-		return FAILURE;
+		result = FAILURE;
 	}
-
-	if((res = process_delete(tokens[4], tokens[5])) == TERMINATION)
+	else if(tokens[4] == NULL)
 	{
 		print_list(qualified_list);
-		return SUCCESS;
+		result = SUCCESS;
 	}
-	else if(res == FAILURE)
+	else if(!process_delete(tokens[4], tokens[5], qualified_list))
 	{
-		return FAILURE;
+		result = FAILURE;
+	}
+	else
+	{
+		result = SUCCESS;
 	}
 
-	return SUCCESS;
+	free_list(filelist);
+	free_list(qualified_list);
+	
+	return result;
 }
 
 void print_instruction()
@@ -95,24 +95,29 @@ int process_find(char* token0)
 	return SUCCESS;
 }
 
-int process_location(char* token1)
+node* process_location(char* token1)
 {
-	
+	node* filelist;
+
+	filelist = NULL;
+
 	/* check if token1 is valid directory */
 
 	/* if it is valid, recursively add file path name relative to the input directory to filelist*/
 
-	return SUCCESS;
+	return filelist;
 }
 
-int process_criteria(char* token2, char* token3)
+node* process_criteria(char* token2, char* token3, node* filelist)
 {
-	if(token2 == NULL)
-	{
-		return TERMINATION;
-	}
+	node* qualified_list;
 
-	/* check and choose corresponding search function*/
+	qualified_list = NULL;
+
+	/* check if criteria valid */
+
+
+	/* choose corresponding search function*/
 	if(strcmp(token2, "-name") == 0)
 	{
 		qualified_list = search_by_name(token3, filelist);
@@ -128,51 +133,40 @@ int process_criteria(char* token2, char* token3)
 	else			
 	{
 		print_error_msg("Invalid Syntax");	/* criteria is not valid */
-		return FAILURE;
 	}
 
-	if(qualified_list == NULL)
-	{
-		return FAILURE;
-	}
-
-	return SUCCESS;
+	return qualified_list;
 }
 
-int process_delete(char* token4, char* token5)
+int process_delete(char* token4, char* token5, node* qualified_list)
 {
-	int res;
+	int result;
 
-	if(token4 == NULL)
-	{
-		return TERMINATION;
-	}
 	
 	/* check if delete syntax valid, call delete function*/
 	
-	delete(qualified_list);
 
-	return res;
+	result = delete(qualified_list);
+
+	return result;
 }
 
 
 int main()
 {
-	int res;
+	int result;
+	char* tokens[MAXTOKEN];
 
 	prompt_input();
 
 	if(!get_input(tokens))
 	{
-		return res;
+		return FAILURE;
 	}
 
-	res = process_input(tokens);
-
-	free_list(filelist);
-	free_list(qualified_list);
+	result = process_input(tokens);
 	
 	printf("%s\n", "Test: main ends");
 	
-	return res;
+	return result;
 }
