@@ -17,6 +17,7 @@
 // {
 // 	node *dummy, *tail, *head, *p;
 // 	int i;
+// 	dummy = tail = head = p = NULL;
 	
 // 	create_node(&dummy, "");					/* dummy: "" -> NULL */
  
