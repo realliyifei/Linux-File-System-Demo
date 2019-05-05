@@ -47,7 +47,7 @@ node* search_by_name(char* name, node* filelist)
     struct dirent *ptr;
     
     char* filepath;
-    char* file_name; 
+    char* file_name = malloc(4); 
     int position;
     int position2;
     
@@ -62,33 +62,31 @@ node* search_by_name(char* name, node* filelist)
         filepath = filelist_temp->filepath;
         
         // find the position of the last dot "."
-        char *part = strchr(filepath, '.');
-        while(*part != NULL) 
+        char *part;
+        part = strchr(filepath, '.');
+        while(part != NULL) 
         {
             position = part-filepath;
             part = strchr(part+1,'.');
         }
         
         // find the position of the last slash "/"
-        char *part2 = strchr(filepath, '/');
-        while(*part2 != NULL) 
+        char *part2;
+        part2 = strchr(filepath, '/');
+        while(part2 != NULL)
         {
             position2 = part2-filepath;
             part2 = strchr(part2+1,'/');
         }
         
         // write and compare file name 
-        file_name = filepath.substr(position, position2);
+        strncpy(file_name, filepath+position2+1, position-position2-1);
         if(strcmp(file_name, name)==0)
         {
             add_node(&filelist_result,filepath); // add required node
-            // return filelist; // return node
-            
         } 
-        
         filelist_temp = filelist_temp->next;
     }
-    
 	return filelist_result;
 }
 
