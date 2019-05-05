@@ -93,6 +93,7 @@ node* search_by_name(char* name, node* filelist)
 	return filelist_result;
 }
 
+
 /**
  * Function: search_by_modification_time
  * @Exec Search all the files with modification time mentioned by min 
@@ -108,82 +109,101 @@ node* search_by_modification_time(char* min, node* filelist)
     node *temp = filelist;
     DIR *dir;
     struct stat buf;
-    struct dirent *ptr;
+   // struct dirent *ptr;
     int i_min; // = atoi(min);// make minutes in char to int
     //char base[512];
     int result; //if result == 0, then something go wrong
-    printf("start time model\n");
+    //printf("start time model\n");
     if (filelist == NULL)
     {   
-        printf("filelist is empty.\n");
+      //  printf("filelist is empty.\n");
         return NULL;
     }
     // else if ((dir = opendir(filelist->filepath)) == NULL)
     // {   
     //     printf("filepath: %s\n",filelist->filepath);
-    //     ptr=readdir(dir);
+    //     //ptr=readdir(dir);
     //     printf("after\n");
 
-    //     printf("filepath: %s\n",ptr->d_name);
+    //     //printf("filepath: %s\n",ptr->d_name);
 
     //     printf("(dir = opendir(filelist->filepath)) == NULL\n");
     //     return NULL;
     // }
-    printf("creat new node\n");
+   // printf("creat new node\n");
     create_node(&final_filelist, "");
-    printf("creat new node\n");
+   // printf("creat new node\n");
     if (min[0] == '+')
     {
-        i_min = atoi(min++);
-        while ((temp->next)!=NULL)
+        i_min = atoi((min)+1);
+        printf("minutes after '+': %d \n", i_min);
+
+        while ((temp->filepath)!=NULL)
         {
-            dir = opendir(temp->filepath);
-            ptr = readdir(dir);
-            result = stat(ptr->d_name, &buf);
-            if ((time(NULL) - buf.st_mtime)<= (i_min*60)  )
+        result = stat(temp->filepath, &buf);
+            if ((time(NULL) - buf.st_mtime)>= (i_min*60)  )
             {
                 add_node(&final_filelist, temp->filepath);
+                printf("added filepath'-': %s \n", temp->filepath);
             }
-            temp = temp->next;
-                }
+            printf("not added filepath'-': %s \n", temp->filepath);
+
+            if((temp = temp->next)==NULL)
+            {break;}
+            
+            }
 
         return final_filelist;
     }
 
     else if (min[0] == '-')
     {
-        i_min = atoi(min++);
+        i_min = atoi((min)+1);
         printf("minutes after '-': %d \n", i_min);
-        while ((dir = opendir(temp->filepath))!=NULL)
+        while ((temp->filepath)!=NULL)
+        
+            {   
+                // if ((dir=opendir(temp->filepath))==NULL)
+                // {   
+                //     printf("dir=opendir(temp->filepath))==NULL");
+                //     temp=temp->next;
+                //     continue;
+                // }
+                // dir = opendir(temp->filepath);
+                // ptr = readdir(dir);
+            result = stat(temp->filepath, &buf);
+            if ((time(NULL) - buf.st_mtime)<= (i_min*60)  )
             {
-                ptr = readdir(dir);
-            result = stat(ptr->d_name, &buf);
-            if ((time(NULL) - buf.st_mtime)>= (i_min*60)  )
-            {
-                add_node(final_filelist, temp->filepath);
-                printf("filepath'-': %s \n", temp->filepath);
+                add_node(&final_filelist, temp->filepath);
+                printf("added filepath'-': %s \n", temp->filepath);
             }
-            temp = temp->next;
+            printf("not added filepath'-': %s \n", temp->filepath);
+            if((temp = temp->next)==NULL)
+            {break;}
+            
             }
-
+       // printf("retrun success\n");
         return final_filelist;
     }
 
     else
     {
         i_min = atoi(min);
-        while ((dir = opendir(temp->filepath))!=NULL)
+        while ((temp->filepath)!=NULL)
             {
-                ptr = readdir(dir);
-            result = stat(ptr->d_name, &buf);
-            if (((time(NULL) - buf.st_mtime) / 60) == i_min )
+        result = stat(temp->filepath, &buf);
+            if ((int)((time(NULL) - buf.st_mtime)/60)== (i_min)  )
             {
-                add_node(final_filelist, temp->filepath);
+                add_node(&final_filelist, temp->filepath);
+                //printf("filepath'-': %s \n", temp->filepath);
             }
-            temp = temp->next;
+            if((temp = temp->next)==NULL)
+            {break;}
+            
             }
+
         return final_filelist;
-    }
+}
 }
 
 /**
@@ -196,69 +216,35 @@ node* search_by_modification_time(char* min, node* filelist)
  */
 node* search_by_inode(char* inum, node* filelist)
 {
-    node **final_filelist;
+    node *final_filelist;
     node *temp = filelist;
     DIR *dir;
-    //struct stat buff;
-    struct dirent *ptr;
+    struct stat buf;
+    int result;
+    //struct dirent *ptr;
     int int_num = atoi(inum); // make minutes in char to int
 
     if (filelist == NULL)
     {
         return NULL;
     }
-    else if ((dir = opendir(filelist->filepath)) == NULL)
-    {
-        return NULL;
-    }
+    // else if ((dir = opendir(filelist->filepath)) == NULL)
+    // {
+    //     return NULL;
+    // }
     create_node(&final_filelist, "");
 
-    while ((dir = opendir(temp->filepath))!=NULL)
+    while (temp != NULL)
         {
-            ptr = readdir(dir);
-            //result = stat(ptr->d_name, &buf)
-            if ((int)(ptr->d_ino) == int_num)
+            //ptr = readdir(dir);
+            result = stat(temp->filepath, &buf);
+            if ((int)(buf.st_ino) == int_num)
             {
-                add_node(final_filelist, temp->filepath);
+                add_node(&final_filelist, temp->filepath);
             }
             temp = temp->next;
         }
 
-    return *final_filelist;
+    return final_filelist;
 }
 
-int main()
-{
-
-	node *dummy, *tail, *head;
-
-	//char *filepath0 = "/OprerSys_Proj3/headers/test.txt";
-	char *filepath0 = ".";
-	char *filepath1 = "/OprerSys_Proj3/afolder3/afile4.txt";
-	char *filepath2 = "/OprerSys_Proj3/afolder1/afile2.txt";
-	char *filepath3 = "/OprerSys_Proj3/afolder1/afolder2/afile2.txt";
- 	
- 	/*dummy node for better coding style*/
- 	if(create_node(&dummy, "") == FAILURE)	
- 	{
- 		return FAILURE;
- 	}			
-
- 	tail = dummy;						 
- 	add_node(&tail, filepath0);		
- 	add_node(&tail, filepath1);
- 	add_node(&tail, filepath2);
-	add_node(&tail, filepath3);
- 	
- 	head = dummy->next;
- 	char* test = "test";
- 	char* min = "-10";
- 	char* num = "1150561";
- 	
- 	search_by_name(head,test);
- 	search_by_modification_time(min,head);
- 	search_by_inode(num,head);
-
- 	free_list(dummy);
- 	return SUCCESS;
-}
