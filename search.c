@@ -4,7 +4,6 @@
 #include <string.h> // strchr, strcmp
 #include "headers/search.h"
 #include "headers/linkedlist.h"
-#include <stdio.h>
 
 //Exampe returned from search function: 
 // find .
@@ -42,16 +41,25 @@
  */
 node* search_by_name(char* name, node* filelist)
 {
-    // struct stat st;
+    
+    DIR *dir;
+    struct stat st;
+    struct dirent *ptr;
     
     char* filepath;
     char* file_name; 
     int position;
     int position2;
     
-    // while(filelist != NULL)
-    // {
-        filepath = filelist->filepath;
+    dir = opendir(filelist->filepath);
+    
+    node* filelist_temp = filelist; 
+    node* filelist_result; 
+    create_node(&filelist_result,"");
+    
+    while(filelist_temp != NULL)
+    {
+        filepath = filelist_temp->filepath;
         
         // find the position of the last dot "."
         char *part = strchr(filepath, '.');
@@ -73,14 +81,15 @@ node* search_by_name(char* name, node* filelist)
         file_name = filepath.substr(position, position2);
         if(strcmp(file_name, name)==0)
         {
-            return filelist; // return node
+            add_node(&filelist_result,filepath); // add required node
+            // return filelist; // return node
+            
         } 
-        // else {
-        //     filelist = filelist->next;
-        // }
-    // }
+        
+        filelist_temp = filelist_temp->next;
+    }
     
-	return NULL;
+	return filelist_result;
 }
 
 /**
@@ -202,5 +211,6 @@ node* search_by_inode(char* inum, node* filelist)
             temp = temp->next;
         }
 
-    return final_filelist;
+    return *final_filelist;
 }
+
