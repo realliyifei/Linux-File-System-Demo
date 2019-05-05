@@ -1,3 +1,5 @@
+// Added by May 4: This should be DELETED once we finished the project. Here is for reference. 
+
 // NOTES: this code is UNCOMPLETED
 
 /** 
