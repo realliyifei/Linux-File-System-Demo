@@ -9,6 +9,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "headers/linkedlist.h"
 #include "headers/constant.h"
 
@@ -33,7 +34,7 @@ int create_node(node **new_node, char *new_filepath)
 		return FAILURE;
 	}
 
-	temp->filepath = new_filepath;
+	strcpy(temp->filepath, new_filepath);
 	temp->next = NULL;
 
 	*new_node = temp;
