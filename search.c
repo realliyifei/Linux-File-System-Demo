@@ -4,6 +4,7 @@
 #include <string.h> // strchr, strcmp
 #include "headers/search.h"
 #include "headers/linkedlist.h"
+#include <stdio.h>
 
 //Exampe returned from search function: 
 // find .
@@ -93,8 +94,74 @@ node* search_by_name(char* name, node* filelist)
  */
 node* search_by_modification_time(char* min, node* filelist)
 {
-	// @Da
-	return NULL;
+    node **final_filelist;
+    node *temp = filelist;
+    DIR *dir;
+    struct stat buff;
+    struct dirent *ptr;
+    int i_min; // = atoi(min);// make minutes in char to int
+    //char base[512];
+    int result; //if result == 0, then something go wrong
+
+    if (filelist == NULL)
+    {
+        return NULL;
+    }
+    else if ((dir = opendir(filelist->filepath)) == NULL)
+    {
+        return NULL;
+    }
+    creat_node(final_filelist, "");
+
+    if (min[0] == '+')
+    {
+        i_min = atoi(min++);
+        while (dir = opendir(temp->filepath))!=NULL)
+            {
+                ptr = readdir(dir);
+        result = stat(ptr->d_name, &buf)
+        if (((unsigned long)time(NULL) - &buf.st_mtime))<= (i_min*60)  )
+        {
+            addnode(final_filelist, temp->filepath);
+        }
+        temp = temp->next;
+            }
+
+        return final_filelist;
+    }
+
+    else if (min[0] == '-')
+    {
+        i_min = atoi(min++);
+        while (dir = opendir(temp->filepath))!=NULL)
+            {
+                ptr = readdir(dir);
+            result = stat(ptr->d_name, &buf)
+            if (((unsigned long)time(NULL) - &buf.st_mtime))>= (i_min*60)  )
+            {
+                addnode(final_filelist, temp->filepath);
+            }
+            temp = temp->next;
+            }
+
+        return final_filelist;
+    }
+
+    else
+    {
+        i_min = atoi(min);
+        while (dir = opendir(temp->filepath))!=NULL)
+            {
+                ptr = readdir(dir);
+            result = stat(ptr->d_name, &buf)
+            if (((int)( ((unsigned long)time(NULL) - &buf.st_mtime) / 60)) == i_min ))
+            {
+                addnode(final_filelist, temp->filepath);
+            }
+            temp = temp->next;
+            }
+        return final_filelist;
+    }
 }
 
 /**
@@ -107,6 +174,33 @@ node* search_by_modification_time(char* min, node* filelist)
  */
 node* search_by_inode(char* inum, node* filelist)
 {
-    // @Da
-	return NULL;
+    node **final_filelist;
+    node *temp = filelist;
+    DIR *dir;
+    //struct stat buff;
+    struct dirent *ptr;
+    int int_num = atoi(inum); // make minutes in char to int
+
+    if (filelist == NULL)
+    {
+        return NULL;
+    }
+    else if ((dir = opendir(filelist->filepath)) == NULL)
+    {
+        return NULL;
+    }
+    creat_node(final_filelist, "");
+
+    while (dir = opendir(temp->filepath))!=NULL)
+        {
+            ptr = readdir(dir);
+            //result = stat(ptr->d_name, &buf)
+            if ((int)(ptr->d_ino) == int_num)
+            {
+                addnode(final_filelist, temp->filepath);
+            }
+            temp = temp->next;
+        }
+
+    return final_filelist;
 }
