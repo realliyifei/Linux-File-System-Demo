@@ -118,9 +118,9 @@ node* search_by_modification_time(char* min, node* filelist)
             if ((time(NULL) - buf.st_mtime)>= (i_min*60)  )
             {
                 add_node(&final_filelist, temp->filepath);
-                printf("added filepath'-': %s \n", temp->filepath);
+               // printf("added filepath'-': %s \n", temp->filepath);
             }
-            printf("not added filepath'-': %s \n", temp->filepath);
+            //printf("not added filepath'-': %s \n", temp->filepath);
 
             if((temp = temp->next)==NULL)
             {break;}
@@ -169,7 +169,7 @@ node* search_by_modification_time(char* min, node* filelist)
             if ((int)((time(NULL) - buf.st_mtime)/60)== (i_min)  )
             {
                 add_node(&final_filelist, temp->filepath);
-                //printf("filepath'-': %s \n", temp->filepath);
+               // printf("filepath'-': %s \n", temp->filepath);
             }
             if((temp = temp->next)==NULL)
             {break;}
@@ -193,10 +193,10 @@ node* search_by_inode(char* inum, node* filelist)
     node *final_filelist;
     node *temp = filelist;
     DIR *dir;
-    struct stat buf;
+    struct stat *buf;
     int result;
     //struct dirent *ptr;
-    int int_num = atoi(inum); // make minutes in char to int
+    long int_num = atol(inum); // make minutes in char to int
 
     if (filelist == NULL)
     {
@@ -207,19 +207,81 @@ node* search_by_inode(char* inum, node* filelist)
     //     return NULL;
     // }
     create_node(&final_filelist, "");
-
+    temp = filelist;
     while (temp != NULL)
-        {
+        {   buf = malloc(sizeof( struct stat));
             //ptr = readdir(dir);
-            result = stat(temp->filepath, &buf);
-            if ((int)(buf.st_ino) == int_num)
+            result = stat(temp->filepath, buf);
+            printf("the current file's inode is: %ld of %s \n", buf->st_ino, temp->filepath);
+            if ((long)(buf->st_ino) == int_num)
             {
                 add_node(&final_filelist, temp->filepath);
             }
+            free(buf);
             temp = temp->next;
         }
 
     return final_filelist;
+}
+
+int main()
+{
+
+	node *dummy, *tail, *head;
+
+	char *filepath0 = "/OprerSys_Proj3/headers/test.txt";
+	char *filepath1 = "/OprerSys_Proj3/afolder3/afile4.txt";
+	char *filepath2 = "/OprerSys_Proj3/afolder1/afile2.txt";
+	char *filepath3 = "/OprerSys_Proj3/afolder1/afolder2/afile2.txt";
+ 	
+ 	/*dummy node for better coding style*/
+ 	if(create_node(&dummy, "") == FAILURE)	
+ 	{
+ 		return FAILURE;
+ 	}			
+
+ 	tail = dummy;						 
+ 	add_node(&tail, filepath0);		
+ 	add_node(&tail, filepath1);
+ 	add_node(&tail, filepath2);
+	add_node(&tail, filepath3);
+ 	
+ 	head = dummy->next;
+ 	char* test = "test";
+ 	
+ 	node* result = search_by_name(test, head);
+ 	node* result1 = search_by_name(test, head);
+ 	node* result2 = search_by_modification_time("+10", head);
+ 	node* result3 = search_by_inode("1159042912", head);
+    
+    printf("inode for files:");
+    
+    
+    if(strcmp(result1->filepath,filepath0)==0) 
+    {
+        printf("Search_by_name SUCCESS! \n");
+    }
+    
+    while(result1!=NULL) 
+    {
+        printf("Seach_by_name filepath: %s \n",result1->filepath);
+        result1 = result1->next;
+    }
+    
+    while(result2!=NULL) 
+    {
+        printf("Seach_by_modification_time filepath: %s \n",result2->filepath);
+        result2 = result2->next;
+    }
+    
+    while(result3!=NULL) 
+    {
+        printf("Seach_by_inode filepath: %s \n", result3->filepath);
+        result3 = result3->next;
+    }
+    
+ 	free_list(dummy);
+ 	return SUCCESS;
 }
 
 // REFERENCE: Exampe returned from search function: 
