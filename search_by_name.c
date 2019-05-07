@@ -103,6 +103,42 @@ int main()
  	return SUCCESS;
 }
 
+int main()
+{
+
+	node *dummy, *tail, *head;
+
+	char *filepath0 = "/OprerSys_Proj3/headers/test.txt";
+	char *filepath1 = "/OprerSys_Proj3/afolder3/afile4.txt";
+	char *filepath2 = "/OprerSys_Proj3/afolder1/afile2.txt";
+	char *filepath3 = "/OprerSys_Proj3/afolder1/afolder2/afile2.txt";
+ 	
+ 	/*dummy node for better coding style*/
+ 	if(create_node(&dummy, "") == FAILURE)	
+ 	{
+ 		return FAILURE;
+ 	}			
+
+ 	tail = dummy;						 
+ 	add_node(&tail, filepath0);		
+ 	add_node(&tail, filepath1);
+ 	add_node(&tail, filepath2);
+	add_node(&tail, filepath3);
+ 	
+ 	head = dummy->next;
+ 	char* test = "test";
+ 	
+ 	node* result = search_by_name(test, head);
+    
+    if(strcmp(result->filepath,filepath0)==0) 
+    {
+        printf("SUCCESS! \n");
+     }
+
+ 	free_list(dummy);
+ 	return SUCCESS;
+}
+
 //Exampe returned from search function: 
 // find .
 // ./main.o
