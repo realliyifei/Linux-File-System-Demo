@@ -8,32 +8,6 @@
 #include "headers/linkedlist.h"
 #include "headers/constant.h"
 
-//Exampe returned from search function: 
-// find .
-// ./main.o
-// ./file_name_test.h
-// ./.DS_Store
-// ./test1.txt
-// ./test2.txt
-// ./dir3
-// ./dir3/test7.txt
-// ./dir3/test8.txt
-// ./linkedlist.o
-// ./linkedlist.h
-// ./node.h
-// ./main.c
-// ./linkedlist_test.c
-// ./dir1
-// ./dir1/test4.txt
-// ./dir1/.DS_Store
-// ./dir1/test3.txt
-// ./dir1/dir2
-// ./dir1/dir2/test6.txt
-// ./dir1/dir2/test5.txt
-// ./dir1/dir2/.DS_Store
-// ./main
-// ./linkedlist.c
-
 /**
  * Function: search_by_name
  * @Exec Search all the files with name indicated by filelist and print the directory
