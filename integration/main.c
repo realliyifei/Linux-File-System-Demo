@@ -4,40 +4,43 @@
 #include "headers/constant.h"
 #include "headers/linkedlist.h"
 #include "headers/util.h"
+#include "headers/process.h"
 #include "headers/search.h"
 #include "headers/delete.h"
 
-#define MAXTOKEN 6
-#define MAX_TOKEN_LENGTH 256
 				
 void prompt_input();
 int get_input(char* tokens[]);
 int process_input(char* tokens[]);
 
-void print_instruction();
-int process_find(char* token0);
-node* process_location(char* token1);
-node* process_criteria(char* token2, char* token3, node* filelist);
-int process_delete(char* token4, char* token5, node* qualified_list);
-
 void prompt_input()
 {
-	print_instruction();
+	printf("Welcome to the virtual file system! \n");
+    printf("The VFS has four following functions \n");
+    printf("1. find where-to-look \n");
+    printf("Usage : \"find directory_name\" \n");
+    printf("2.   find where-to-look criteria \n");
+    printf(" -a. find where-to-look -name <specified name> \n");
+    printf(" -b. find where-to-look -mmin <specified number of minutes> \n");
+    printf(" -c. find where-to-look -inum <specified i-node number>) \n");
+    printf("3. find where-to-look criteria -delete \n");
+    printf("\n");
+	printf("\n");
 }
 
 int get_input(char* tokens[])   
 {
-	 char user_input[MAXTOKEN * MAX_TOKEN_LENGTH];
+	int result;
+	char user_input[MAXTOKEN * MAX_TOKEN_LENGTH];
 
-	 /* ... */
+	fflush(stdin);
+	
+	fgets(user_input, MAXTOKEN * MAX_TOKEN_LENGTH, stdin);   
 
-	 fgets(user_input, MAXTOKEN * MAX_TOKEN_LENGTH, stdin);  /*to-do-list: handle fgets error? */
-
-
-	 /* check if user input exceeds token maximum and return FAILURE if needed */
-
-	 /* split user input into tokens */
-
+	if(!check_length(user_input) || !convert_user_instruction(user_input, tokens))
+	{
+		return FAILURE;
+    }
 
 	 return SUCCESS;
 }
@@ -52,9 +55,10 @@ int process_input(char* tokens[])
 
 	if(!process_find(tokens[0]) || (filelist = process_location(tokens[1])) == NULL)
 	{
+		printf("filelist null");
 		result = FAILURE;
 	}
-	else if(tokens[2] == NULL)
+	else if(strcmp(tokens[2], "") == 0)
 	{
 		print_list(filelist);
 		result = SUCCESS;
@@ -63,7 +67,7 @@ int process_input(char* tokens[])
 	{
 		result = FAILURE;
 	}
-	else if(tokens[4] == NULL)
+	else if(strcmp(tokens[4], "") == 0)
 	{
 		print_list(qualified_list);
 		result = SUCCESS;
@@ -83,90 +87,22 @@ int process_input(char* tokens[])
 	return result;
 }
 
-void print_instruction()
-{
-	/* print user instruction */
-}
 
-int process_find(char* token0)
-{
-	/* check if token0 is find*/
+// int main()
+// {
+// 	int result;
+// 	char* tokens[MAXTOKEN];
 
-	return SUCCESS;
-}
+// 	prompt_input();
 
-node* process_location(char* token1)
-{
-	node* filelist;
+// 	if(!get_input(tokens))
+// 	{
+// 		return FAILURE;
+// 	}
 
-	filelist = NULL;
-
-	/* check if token1 is valid directory */
-
-	/* if it is valid, recursively add file path name relative to the input directory to filelist*/
-
-	return filelist;
-}
-
-node* process_criteria(char* token2, char* token3, node* filelist)
-{
-	node* qualified_list;
-
-	qualified_list = NULL;
-
-	/* check if criteria valid */
-
-
-	/* choose corresponding search function*/
-	if(strcmp(token2, "-name") == 0)
-	{
-		qualified_list = search_by_name(token3, filelist);
-	}
-	else if(strcmp(token2, "-mmin") == 0)
-	{
-		qualified_list = search_by_modification_time(token3, filelist);
-	}
-	else if(strcmp(token2, "-inum") == 0)
-	{
-		qualified_list = search_by_inode(token3, filelist);
-	}
-	else			
-	{
-		print_error_msg("Invalid Syntax");	/* criteria is not valid */
-	}
-
-	return qualified_list;
-}
-
-int process_delete(char* token4, char* token5, node* qualified_list)
-{
-	int result;
-
+// 	result = process_input(tokens);
 	
-	/* check if delete syntax valid, call delete function*/
+// 	printf("%s\n", "Test: main ends");
 	
-
-	result = delete(qualified_list);
-
-	return result;
-}
-
-
-int main()
-{
-	int result;
-	char* tokens[MAXTOKEN];
-
-	prompt_input();
-
-	if(!get_input(tokens))
-	{
-		return FAILURE;
-	}
-
-	result = process_input(tokens);
-	
-	printf("%s\n", "Test: main ends");
-	
-	return result;
-}
+// 	return result;
+// }
