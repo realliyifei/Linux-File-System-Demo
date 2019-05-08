@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "headers/util.h"
 #include "headers/constant.h"
 #include "headers/linkedlist.h"
@@ -71,8 +72,27 @@ int convert_user_instruction(char user_input[], char* tokens[])
     return SUCCESS;
 }
 
+void get_current_path(char* buffer, char* filename)
+{
+    if(strcmp(filename,".")==0 || strcmp(filename,"")==0)
+    {
+        strcpy(buffer,"");
+    }
+    else
+    {
+        strncpy(buffer, filename, MAX_TOKEN_LENGTH);
+        strcat(buffer,"/");
+    }
+}
+
 void print_list(node* list)
 {
+    node* pointer = list;
+    while(pointer != NULL)
+    {
+        printf("%s\n", pointer->filepath);
+        pointer = pointer->next;
+    }
 
 }
 
