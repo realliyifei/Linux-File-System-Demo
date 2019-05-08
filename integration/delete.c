@@ -13,7 +13,6 @@
 #include "headers/linkedlist.h"
 #include "headers/constant.h"	
 
-int delete(node *filelist);
 
 /*
  * Function: delete
