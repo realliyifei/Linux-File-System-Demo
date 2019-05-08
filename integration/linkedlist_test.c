@@ -14,31 +14,32 @@
 #include "headers/linkedlist.h"
 
 #define MAX_STRING_LENGTH 256
-void main()
-{
-	node *dummy, *tail, *head, *p;
-	int i;
-	char path[MAX_STRING_LENGTH] = "path";									
 
-	dummy = tail = head = p = NULL;
+// void main()
+// {
+// 	node *dummy, *tail, *head, *p;
+// 	int i;
+// 	char path[MAX_STRING_LENGTH] = "path";									
 
-	create_node(&dummy, "");					/* dummy: "" -> NULL */
+// 	dummy = tail = head = p = NULL;
+
+// 	create_node(&dummy, "");					// dummy: "" -> NULL //
  
- 	tail = dummy;
+//  	tail = dummy;
 
-	for(i = 1; i <= 10; ++i)
-	{	
-		add_node(&tail, strcat(path, "a"));		/* dummy: "" -> node: "path" -> node: "path" -> ... -> node(tail): "path" -> NULL */
-	}
+// 	for(i = 1; i <= 10; ++i)
+// 	{	
+// 		add_node(&tail, strcat(path, "a"));		// dummy: "" -> node: "path" -> node: "path" -> ... -> node(tail): "path" -> NULL //
+// 	}
 
-	head = dummy->next;							/* the meaningful node start with the next node of dummy */
-	p = head;
+// 	head = dummy->next;							// the meaningful node start with the next node of dummy //
+// 	p = head;
 	
-	while(p != NULL)							/* traverse and print the file path of the list */
-	{
-		printf("filepath: %s\n", p->filepath);
-		p = p->next;
-	}
+// 	while(p != NULL)							// traverse and print the file path of the list //
+// 	{
+// 		printf("filepath: %s\n", p->filepath);
+// 		p = p->next;
+// 	}
 
-	free_list(dummy);							/*free the memory pointed by the list*/
-}
+// 	free_list(dummy);							//free the memory pointed by the list//
+// }
