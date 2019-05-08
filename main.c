@@ -32,8 +32,6 @@ int main(int argc, const char * argv[]) {
             }
         }
     }
-           return  0;
-}
 
     // check the first token
     //printf("%d\n", checker_first_token(user_input[0]));
