@@ -10,28 +10,27 @@ int check_length(char user_input[])
     int ch_counter = 0;
     int space_counter = 0;
     int i = 0;
-    while( i < MAX_TOKEN_LENGTH * MAXTOKEN && user_input[i] != '\n')
+    while( i < MAX_TOKEN_LENGTH * MAXTOKEN - 1  && user_input[i] != '\n')
     {
-        if(user_input[i] == ' ')
+        if(user_input[i] == ' ' && user_input[i+1] != ' ')
         {
             space_counter ++;
-            
-            if(space_counter > 5)
+            if(space_counter > MAXTOKEN - 1)
             {
                 print_error_msg("Invalid input: Exceeding maximum length of command");
-                return FALSE; // tokens of input is too long,
+                return FAILURE; // tokens of input is too long,
             }
             
             ch_counter = 0;
         }
-        else
+        else if (user_input[i] != ' ' )
         {
             ch_counter++;
             
-            if(ch_counter > 256)
+            if(ch_counter > MAX_TOKEN_LENGTH)
             {
-            	 print_error_msg("Invalid input: Exceeding maximum length of chars in a word");
-                return FALSE; // token is too long,
+                print_error_msg("Invalid input: Exceeding maximum length of chars in a word");
+                return FAILURE; // token is too long,
             }
         }
         i++;
@@ -45,23 +44,29 @@ int convert_user_instruction(char user_input[], char* tokens[])
     int k = 0;
     char tokens_2d[MAXTOKEN][MAX_TOKEN_LENGTH] = {"","","","","",""};
 
-    while( i < MAX_TOKEN_LENGTH * MAXTOKEN && user_input[i] != '\n')
+    while( i < MAX_TOKEN_LENGTH * MAXTOKEN - 1 && user_input[i] != '\n')
     {
-        if(user_input[i] == ' ')
+        if(user_input[i] == ' ' && user_input[i+1] != ' ' )
         {
-            tokens_2d[j][k] = '\0'; // string must end with '\0'
-            j++;
+            if(k != 0)
+            {
+                tokens_2d[j][k] = '\0';// string must end with '\0'
+                j++;
+            }
             k = 0;
             i++;
             continue;
         }
-        else
+        else if(user_input[i] != ' ')
         {
             tokens_2d[j][k] = user_input[i];
             k++;
             i++;
         }
+        else
+            i++;
     }
+
     tokens_2d[j][k] = '\0';
 
  	for (int i = 0; i < MAXTOKEN; ++i)
