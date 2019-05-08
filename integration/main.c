@@ -55,7 +55,6 @@ int process_input(char* tokens[])
 
 	if(!process_find(tokens[0]) || (filelist = process_location(tokens[1])) == NULL)
 	{
-		printf("filelist null");
 		result = FAILURE;
 	}
 	else if(strcmp(tokens[2], "") == 0)
@@ -88,21 +87,26 @@ int process_input(char* tokens[])
 }
 
 
-// int main()
-// {
-// 	int result;
-// 	char* tokens[MAXTOKEN];
+int main()
+{
+	int result;
+	char* tokens[MAXTOKEN];
 
-// 	prompt_input();
+	prompt_input();
 
-// 	if(!get_input(tokens))
-// 	{
-// 		return FAILURE;
-// 	}
+	if(!get_input(tokens))
+	{
+		return FAILURE;
+	}
 
-// 	result = process_input(tokens);
+	for(int i = 0; i < MAXTOKEN; ++i)
+	{
+		printf("%d: %s\n",i, tokens[i]);
+	}
+
+	result = process_input(tokens);
 	
-// 	printf("%s\n", "Test: main ends");
+	printf("%s\n", "Test: main ends");
 	
-// 	return result;
-// }
+	return result;
+}
