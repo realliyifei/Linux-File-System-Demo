@@ -5,5 +5,7 @@
 #define FAILURE 0
 #define TRUE 1
 #define FALSE 0
+#define MAXTOKEN 6
+#define MAX_TOKEN_LENGTH 256
 
 #endif
