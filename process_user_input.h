@@ -46,12 +46,11 @@ int check_length(char user_input[MAX_TOKEN_LENGTH*6])
     int ch_counter = 0;
     int space_counter = 0;
     int i = 0;
-    while( i < MAX_TOKEN_LENGTH*6 && user_input[i] != '\n')
+    while( i < MAX_TOKEN_LENGTH*6 - 1  && user_input[i] != '\n')
     {
-        if(user_input[i] == ' ')
+        if(user_input[i] == ' ' && user_input[i+1] != ' ')
         {
             space_counter ++;
-            
             if(space_counter > 5)
             {
                 return FALSE; // tokens of input is too long,
@@ -59,7 +58,7 @@ int check_length(char user_input[MAX_TOKEN_LENGTH*6])
             
             ch_counter = 0;
         }
-        else
+        else if (user_input[i] != ' ' )
         {
             ch_counter++;
             
@@ -72,27 +71,33 @@ int check_length(char user_input[MAX_TOKEN_LENGTH*6])
     }
     return TRUE; // the length of input is valid
 }
+
 void convert_user_instruction(char user_input[], char tokens[MAX_TOKEN][MAX_TOKEN_LENGTH])
 {
     int i = 0;
     int j = 0;
     int k = 0;
-    while( i < MAX_TOKEN_LENGTH*6 && user_input[i] != '\n')
+    while( i < MAX_TOKEN_LENGTH*6 - 1 && user_input[i] != '\n')
     {
-        if(user_input[i] == ' ')
+        if(user_input[i] == ' ' && user_input[i+1] != ' ' )
         {
-            tokens[j][k] = '\0'; // string must end with '\0'
-            j++;
+            if(k != 0)
+            {
+                tokens[j][k] = '\0';// string must end with '\0'
+                j++;
+            }
             k = 0;
             i++;
             continue;
         }
-        else
+        else if(user_input[i] != ' ')
         {
             tokens[j][k] = user_input[i];
             k++;
             i++;
         }
+        else
+            i++;
     }
     tokens[j][k] = '\0';
 }

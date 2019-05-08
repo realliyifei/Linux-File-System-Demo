@@ -33,17 +33,16 @@ void prompt_helper() // in this function, we print the detail usage of the VFS
     
     
 }
-int checkerLength(char original_input[max_length_of_characters*6])
+int check_length(char user_input[MAX_TOKEN_LENGTH*6])
 {
     int ch_counter = 0;
     int space_counter = 0;
     int i = 0;
-    while( i < max_length_of_characters*6 && original_input[i] != '\n')
+    while( i < MAX_TOKEN_LENGTH*6 - 1  && user_input[i] != '\n')
     {
-        if(original_input[i] == ' ')
+        if(user_input[i] == ' ' && user_input[i+1] != ' ')
         {
             space_counter ++;
-            
             if(space_counter > 5)
             {
                 return FALSE; // tokens of input is too long,
@@ -51,7 +50,7 @@ int checkerLength(char original_input[max_length_of_characters*6])
             
             ch_counter = 0;
         }
-        else
+        else if (user_input[i] != ' ' )
         {
             ch_counter++;
             
@@ -64,28 +63,34 @@ int checkerLength(char original_input[max_length_of_characters*6])
     }
     return TRUE; // the length of input is valid
 }
-void convert_original_to_userInput(char original_input[], char user_input[][max_length_of_characters])
+void convert_user_instruction(char user_input[], char tokens[MAX_TOKEN][MAX_TOKEN_LENGTH])
 {
     int i = 0;
     int j = 0;
     int k = 0;
-    while( i < max_length_of_characters*6 && original_input[i] != '\n')
+    while( i < MAX_TOKEN_LENGTH*6 - 1 && user_input[i] != '\n')
     {
-        if(original_input[i] == ' ')
+        if(user_input[i] == ' ' && user_input[i+1] != ' ' )
         {
-            user_input[j][k] = '\0'; // string must end with '\0'
-            j++;
+            if(k != 0)
+            {
+                tokens[j][k] = '\0';// string must end with '\0'
+                j++;
+            }
             k = 0;
             i++;
             continue;
         }
-        else
+        else if(user_input[i] != ' ')
         {
-            user_input[j][k] = original_input[i];
+            tokens[j][k] = user_input[i];
             k++;
             i++;
         }
+        else
+            i++;
     }
+    tokens[j][k] = '\0';
 }
 int checker_first_token(char first_token[max_length_of_characters]) // check the first input is "find" or not
 {
