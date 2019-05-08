@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include <string.h>
-<<<<<<< HEAD
 #include "process_user_input.h"
 
 
@@ -39,29 +38,7 @@ int main(int argc, const char * argv[]) {
     // check the first token
     //printf("%d\n", checker_first_token(user_input[0]));
    // printFilePath(user_input[1]);
-=======
-#include "file_name_test.h"
 
-#define max_input_token 6
-#define max_length_of_characters 256
-#define TRUE 1
-#define FALSE 0
-
-int main(int argc, const char * argv[]) {
-    //Prompt about the usage of the function
-    prompt_helper();
-    char original_input[max_length_of_characters*6];
-    char user_input[max_input_token][max_length_of_characters];
-    fflush(stdin);
-    fgets(original_input,max_length_of_characters*6,stdin);
-    if(checkerLength(original_input) == TRUE)
-    {
-        convert_original_to_userInput(original_input, user_input);
-    }
-    // check the first token
-    //printf("%d\n", checker_first_token(user_input[0]));
-    printFilePath(user_input[1]);
->>>>>>> 52521814dd58a246d3e539a25db0cd7d4981dfe9
     ////////////////////////////////////////////////////
     //
     //
@@ -100,11 +77,10 @@ int main(int argc, const char * argv[]) {
             }
         }
     }*/
-<<<<<<< HEAD
-=======
+
     return  0;
 }
->>>>>>> 52521814dd58a246d3e539a25db0cd7d4981dfe9
+
 
 
 
