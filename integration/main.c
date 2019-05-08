@@ -66,7 +66,7 @@ int process_input(char* tokens[])
 	{
 		result = FAILURE;
 	}
-	else if(strcmp(tokens[4], "") == 0)
+	else if(strlen(tokens[4]) == 0)
 	{
 		print_list(qualified_list);
 		result = SUCCESS;
@@ -97,11 +97,6 @@ int main()
 	if(!get_input(tokens))
 	{
 		return FAILURE;
-	}
-
-	for(int i = 0; i < MAXTOKEN; ++i)
-	{
-		printf("%d: %s\n",i, tokens[i]);
 	}
 
 	result = process_input(tokens);
