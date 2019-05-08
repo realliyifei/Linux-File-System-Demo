@@ -54,7 +54,7 @@ node* process_location(char* token1)
         {
             char current_path[MAX_TOKEN_LENGTH];
             get_current_path(current_path, token1);
-           
+
             if(strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0 )
             {
                 strcat(current_path, dir->d_name);
@@ -109,27 +109,27 @@ node* process_criteria(char* token2, char* token3, node* filelist)
 		print_error_msg("Invalid Syntax: Criteria should be -name, -mmin or -inum");	/* criteria is not valid */
 	}
 
-    // Test : mock data
-    node *dummy, *tail, *head;
+    //Test : mock data
+    // node *dummy, *tail, *head;
 
-    char *filepath0 = "testFolder0/testFile0";
-    char *filepath1 = "testFolder0/testFolder1/testFile1";
-    char *filepath2 = "testFolder0/testFolder1/testFile0";
-    char *filepath3 = "testFolder0/testFolder1/test2";
+    // char *filepath0 = "testFolder0/testFile0";
+    // char *filepath1 = "testFolder0/testFolder1/testFile1";
+    // char *filepath2 = "testFolder0/testFolder1/testFile0";
+    // char *filepath3 = "testFolder0/testFolder1/test2";
 
-    if(create_node(&dummy, "") == FAILURE)  /*dummy node for better coding style*/
-    {
-        return FAILURE;
-    }           
+    // if(create_node(&dummy, "") == FAILURE)  
+    // {
+    //     return FAILURE;
+    // }           
 
-    tail = dummy;                        
-    add_node(&tail, filepath0);     
-    add_node(&tail, filepath1);
-    add_node(&tail, filepath2);
-    add_node(&tail, filepath3);
+    // tail = dummy;                        
+    // add_node(&tail, filepath0);     
+    // add_node(&tail, filepath1);
+    // add_node(&tail, filepath2);
+    // add_node(&tail, filepath3);
 
-    head = dummy->next;
-    qualified_list = head;
+    // head = dummy->next;
+    // qualified_list = head;
 
 	return qualified_list;
 }
@@ -149,8 +149,3 @@ int process_delete(char* token4, char* token5, node* qualified_list)
 	return result;
 }
 
-int main()
-{
-    node* test_list = process_location("testFolder0");
-    printf("if list NULL: %d\n", test_list == NULL);
-}
