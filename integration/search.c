@@ -11,6 +11,34 @@
 #include "headers/util.h"
 
 /**
+ * Function: find_symbol_position (helper function for search_by_name)
+ * @Exec find the last position of given symbol in given string
+ * @Para1 string - the string required finding in 
+ * @Para2 symbol - the char required finding the last position of
+ * @Return the integer refers to the last position of given symbol in given string
+ */
+int find_symbol_position(char* string, char symbol) 
+{
+    int symbol_position;
+    char *part;
+    part = strchr(string, symbol);
+    // if filename contains symbol
+    if (part != NULL) 
+    {
+        while(part != NULL) 
+        {
+            symbol_position = part-string;
+            part = strchr(part+1,symbol);
+        }
+    }
+    // if filename dones't contain symbol
+    else {
+        symbol_position = strlen(string);
+    }
+    return symbol_position;
+}
+
+/**
  * Function: search_by_name
  * @Exec Search all the files with name indicated by filelist and print the directory
  * @Para1 name - the required file name to be searched
@@ -21,67 +49,46 @@
 node* search_by_name(char* name, node* filelist)
 {
     DIR *dir;
-
-    char *filepath;
-    int position;
-    int position2;
-
+    
+    char* filepath;
+    int dot_position;
+    int slash_position;
+    
     dir = opendir(filelist->filepath);
-
-    node *filelist_temp = filelist;
-    node *filelist_result;
-    node *tail;
-    create_node(&filelist_result, "");
+    
+    node* filelist_temp = filelist; 
+    node* filelist_result; 
+    node* tail;
+    create_node(&filelist_result,"");
     tail = filelist_result;
 
-    while (filelist_temp != NULL)
+    while(filelist_temp != NULL)
     {
         filepath = filelist_temp->filepath;
-
-        // find the position of the last slash "/"
-        char *part2;
-        part2 = strchr(filepath, '/');
-        while (part2 != NULL)
-        {
-            position2 = part2 - filepath;
-            part2 = strchr(part2 + 1, '/');
-        }
-
-        // find the position of the last dot "."
-        char *part;
-        part = strchr(filepath, '.');
-        // if filename contains dot
-        if (part != NULL)
-        {
-            while (part != NULL)
-            {
-                position = part - filepath;
-                part = strchr(part + 1, '.');
-            }
-        }
-        // if filename dones't contain dot
+        
+        // Find the Position of the Last Slash "/" And Dot "."
+        int name_dot_finder = strchr(name,'.');
+        slash_position = find_symbol_position(filepath, '/');
+        // when given name doesn't contain dot
+        if (name_dot_finder == 0) 
+            dot_position = find_symbol_position(filepath, '.');
+        // when given name contains dot
         else
+            dot_position = strlen(filepath);
+
+        // Write and Compare File Name 
+        char* file_name = malloc(4); 
+        strncpy(file_name, filepath + slash_position + 1, dot_position - slash_position - 1);
+        file_name[dot_position - slash_position - 1] = '\0'; 
+        if(strcmp(file_name, name)==0)
         {
-            position = strlen(filepath);
-        }
-
-        // write and compare file name
-        char *file_name = malloc(4);
-        strncpy(file_name, filepath + position2 + 1, position - position2 - 1);
-
-        /* hui's fix: add '\0' to the end of the file_name */
-        file_name[position - position2 - 1] = '\0';
-        //printf("%s \n", file_name); // for test
-
-        if (strcmp(file_name, name) == 0)
-        {
-            add_node(&tail, filepath); // add required node
-        }
-
+            add_node(&tail,filepath); // add required node
+        } 
+        
         filelist_temp = filelist_temp->next;
     }
-    printf("\n");
-    return filelist_result->next;
+
+	return filelist_result->next;
 }
 
 /**
@@ -245,3 +252,4 @@ node* search_by_inode(char* inum, node* filelist)
     printf("\n");
     return final_filelist->next;
 }
+

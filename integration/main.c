@@ -66,15 +66,6 @@ int process_input(char* tokens[])
 	{
 		result = FAILURE;
 	}
-	/*Bug report 5/8/2019: 
-		When user input "find where-to-find -mmin +5" or "find where-to-find -inode 23673"
-	and after the program calls process_criteria(..), the content of token[3] and token[4] 
-	are changed to weired characters, which should not happen. When user does not 
-	type -delete, token[4] should be empty all the time and the code should not call process_delete */
-
-	/*To re-create the bug: 
-		please enter "find valid-dir-path -mmin +5" and print the value of token[4] and token[3] when
-	1) commenting the else-if statement above 2) not commenting the else- if statement */
 	else if(strlen(tokens[4]) == 0)
 	{
 		print_list(qualified_list);
