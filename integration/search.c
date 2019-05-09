@@ -226,7 +226,7 @@ node *search_by_inode(char *inum, node *filelist)
     while (temp != NULL)
     {
         stat(temp->filepath, &buf);
-        printf("the current file's inode is: %ld of %s \n", buf.st_ino, temp->filepath);
+        printf("the current file's inode is: %llu of %s \n", buf.st_ino, temp->filepath);
         if ((long)(buf.st_ino) == int_num)
         {
             if (S_ISREG(buf.st_mode))
