@@ -101,6 +101,11 @@ int main()
 	int result;
 	char* tokens[MAXTOKEN];
 
+	for(int i = 0; i < MAXTOKEN; ++i)
+	{
+		tokens[i] = (char *) malloc(MAX_TOKEN_LENGTH);
+	}
+
 	prompt_input();
 
 	if(!get_input(tokens))
