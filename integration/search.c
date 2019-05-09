@@ -67,7 +67,8 @@ node *search_by_name(char *name, node *filelist)
         // Find the Position of the Last Slash "/" And Dot "."
         begin_position = find_symbol_position(filepath, '/');
         // test whether given search name contains dot "."
-        int name_dot_finder = (int)strchr(name, '.');
+        char* name_dot_finder = strchr(name, '.');
+        int dot_position = (name_dot_finder==NULL) ? -1: (name_dot_finder - name); 
         // when given search name doesn't contain dot,
         // catch "filename" by setting the last dot in filepath as end position
         if (name_dot_finder == 0)
