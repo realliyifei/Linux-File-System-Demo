@@ -119,11 +119,23 @@ node* search_by_name(char* name, node* filelist)
     return filelist_result->next;
 =======
 
+<<<<<<< HEAD
         // Write and Compare File Name 
         char* file_name = malloc(4); 
         strncpy(file_name, filepath + slash_position + 1, dot_position - slash_position - 1);
         file_name[dot_position - slash_position - 1] = '\0'; 
         if(strcmp(file_name, name)==0)
+=======
+        // write and compare file name
+        char *file_name = malloc(4);
+        strncpy(file_name, filepath + position2 + 1, position - position2 - 1);
+
+        /* hui's fix: add '\0' to the end of the file_name */
+        file_name[position - position2 - 1] = '\0';
+        printf("Search.c - searchbyname - no termination - file_name    : %s\n", file_name);  // for test
+
+        if (strcmp(file_name, name) == 0)
+>>>>>>> Recreate bug by adding log
         {
             add_node(&tail,filepath); // add required node
         } 
@@ -296,3 +308,4 @@ node* search_by_inode(char* inum, node* filelist)
     printf("\n");
     return final_filelist->next;
 }
+
