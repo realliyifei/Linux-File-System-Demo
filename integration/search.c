@@ -56,8 +56,8 @@ node* search_by_name(char* name, node* filelist)
     node* filelist_temp = filelist;
     node* filelist_result; // qualified filelist
     node* tail; // temporary pointer pointing to the tail of qualified filelist
-    tail = filelist_result;
     create_node(&filelist_result,""); // initalize
+    tail = filelist_result;
   
     while(filelist_temp != NULL)
     {
