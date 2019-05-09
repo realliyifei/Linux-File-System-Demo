@@ -71,7 +71,7 @@ node* search_by_name(char* name, node* filelist)
 
         /* hui's fix: add '\0' to the end of the file_name */
         file_name[position - position2 - 1] = '\0';
-        //printf("%s \n", file_name); // for test
+        printf("Search.c - searchbyname - no termination - file_name    : %s\n", file_name);  // for test
 
         if (strcmp(file_name, name) == 0)
         {
@@ -245,3 +245,4 @@ node* search_by_inode(char* inum, node* filelist)
     printf("\n");
     return final_filelist->next;
 }
+
