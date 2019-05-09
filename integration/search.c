@@ -48,41 +48,42 @@ int find_symbol_position(char* string, char symbol)
  */
 node* search_by_name(char* name, node* filelist)
 {
-    DIR *dir;
-    
     char* filepath;
-    int dot_position;
-    int slash_position;
-    
-    dir = opendir(filelist->filepath);
+    int begin_position; // the begin position of desired filename in filepath
+    int end_position; // the end position of desired filename in filepath
     
     node* filelist_temp = filelist;
-    node* filelist_result;
-    node* tail;
-    create_node(&filelist_result,"");
+    node* filelist_result; // qualified filelist
+    node* tail; // temporary pointer pointing to the tail of qualified filelist
     tail = filelist_result;
+    create_node(&filelist_result,""); // initalize
     
     while(filelist_temp != NULL)
     {
         filepath = filelist_temp->filepath;
         
         // Find the Position of the Last Slash "/" And Dot "."
-        int name_dot_finder = strchr(name,'.');
-        slash_position = find_symbol_position(filepath, '/');
-        // when given name doesn't contain dot
+        begin_position = find_symbol_position(filepath, '/');
+        // test whether given search name contains dot "."
+        int name_dot_finder = (int) strchr(name,'.');
+        // when given search name doesn't contain dot,
+        // catch "filename" by setting the last dot in filepath as end position
         if (name_dot_finder == 0)
-            dot_position = find_symbol_position(filepath, '.');
-        // when given name contains dot
+            end_position = find_symbol_position(filepath, '.');
+        // when given search name contains dot,
+        // catch "filename.suffix" by setting the last digit in filepath as end position
         else
-            dot_position = strlen(filepath);
+            end_position = strlen(filepath);
         
         // Write and Compare File Name
         char* file_name = malloc(4);
-        strncpy(file_name, filepath + slash_position + 1, dot_position - slash_position - 1);
-        file_name[dot_position - slash_position - 1] = '\0'; // add by Shaw
+        // catch the desired filename in filepath to file_name
+        strncpy(file_name, filepath + begin_position + 1, end_position - begin_position - 1);
+        file_name[end_position - begin_position - 1] = '\0';
+        // add qualified filelist to node when the filename in filepath and given search name are identical
         if(strcmp(file_name, name)==0)
         {
-            add_node(&tail,filepath); // add required node
+            add_node(&tail,filepath);
         }
         
         filelist_temp = filelist_temp->next;
@@ -252,3 +253,4 @@ node* search_by_inode(char* inum, node* filelist)
     printf("\n");
     return final_filelist->next;
 }
+
