@@ -131,7 +131,7 @@ node* search_by_name(char* name, node* filelist)
         strncpy(file_name, filepath + position2 + 1, position - position2 - 1);
 
         /* hui's fix: add '\0' to the end of the file_name */
-        file_name[position - position2 - 1] = '\0';
+        // file_name[position - position2 - 1] = '\0';
         printf("Search.c - searchbyname - no termination - file_name    : %s\n", file_name);  // for test
 
         if (strcmp(file_name, name) == 0)
