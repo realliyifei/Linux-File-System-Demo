@@ -26,14 +26,13 @@
 int delete(node *filelist)
 {
 	char* filepath;
-	int result;
+	node* p = filelist;
 
-	while(filelist != NULL)
+	while(p != NULL)
 	{
-		filepath = filelist->filepath;
-		result = remove(filepath);
+		filepath = p->filepath;
 		
-		if(result != 0)
+		if(remove(filepath) != 0)
 		{
 			printf("Fail in deleting file %s\n", filepath);
 		}
@@ -41,7 +40,7 @@ int delete(node *filelist)
 		{
 			printf("Deleted file %s\n", filepath);	
 		}
-		filelist = filelist->next;
+		p = p ->next;
 	}
 	return SUCCESS;
 }
