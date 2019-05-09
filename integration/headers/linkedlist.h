@@ -1,5 +1,5 @@
 /*
- *	Project:Header of LinkedList
+ *	Project: Header of LinkedList
  *	Discrition: It contains declarations of basic version of node, addnode function, removenode function and freelist function
  *	Course: CS4323
  *	Author: Hui Xiao
@@ -17,5 +17,3 @@ int remove_node(); // to be implemented if needed
 int free_list(node *head);
 
 #endif
-
-
