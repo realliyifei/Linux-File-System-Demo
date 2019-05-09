@@ -3,6 +3,6 @@
 
 #include "node.h"
 
-int delete(node* filelist);
+int delete (node *filelist);
 
 #endif
