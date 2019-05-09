@@ -7,12 +7,10 @@
  *	Link-with-library instruction: gcc -o delete_output delete.c  linkedlist.c
  */
 
-
 #include <stdio.h>
 #include "headers/delete.h"
 #include "headers/linkedlist.h"
-#include "headers/constant.h"	
-
+#include "headers/constant.h"
 
 /*
  * Function: delete
@@ -23,57 +21,24 @@
  *
  *	returns: integer indicating sucess (0) or failure (1) 
  */
-int delete(node *filelist)
+int delete (node *filelist)
 {
-	char* filepath;
-	node* p = filelist;
+	char *filepath;
+	node *p = filelist;
 
-	while(p != NULL)
+	while (p != NULL)
 	{
 		filepath = p->filepath;
-		
-		if(remove(filepath) != 0)
+
+		if (remove(filepath) != 0)
 		{
 			printf("Fail in deleting file %s\n", filepath);
 		}
 		else
 		{
-			printf("Deleted file %s\n", filepath);	
+			printf("Deleted file %s\n", filepath);
 		}
-		p = p ->next;
+		p = p->next;
 	}
 	return SUCCESS;
 }
-
-// int main()
-// {
-
-// 	node *dummy, *tail, *head;
-
-// 	char *filepath0 = "/home/huixiao/academic/cs4323/testfolder/test0";
-// 	char *filepath1 = "/home/huixiao/academic/cs4323/testfolder/subfolder1/test1";
-// 	char *filepath2 = "/home/huixiao/academic/cs4323/testfolder/subfolder2/test2";
-// 	char *filepath3 = "/home/huixiao/academic/cs4323/testfolder";
- 	
-//  	if(create_node(&dummy, "") == FAILURE)	/*dummy node for better coding style*/
-//  	{
-//  		return FAILURE;
-//  	}			
-
-//  	tail = dummy;						 
-//  	add_node(&tail, filepath0);		
-//  	add_node(&tail, filepath1);
-//  	add_node(&tail, filepath2);
-// 	add_node(&tail, filepath3);
- 	
-//  	head = dummy->next;
-//  	delete(head);
-
-//  	free_list(dummy);
-//  	return SUCCESS;
-// }
-
-
-
-
-

@@ -27,8 +27,8 @@ int create_node(node **new_node, char *new_filepath)
 {
 	node *temp;
 	temp = (node *)malloc(sizeof(node));
-	
-	if(temp == NULL)
+
+	if (temp == NULL)
 	{
 		printf("Fail in creating node due to malloc failure");
 		return FAILURE;
@@ -59,13 +59,13 @@ int add_node(node **tail, char *new_filepath)
 
 	new_tail = NULL;
 
-	if(create_node(&new_tail, new_filepath) == FAILURE)
+	if (create_node(&new_tail, new_filepath) == FAILURE)
 	{
 		printf("Fail in adding node due to node creation");
 		return FAILURE;
 	}
 
-	if(*tail != NULL) 				/*non-empty list*/
+	if (*tail != NULL) /*non-empty list*/
 	{
 		(*tail)->next = new_tail;
 	}
@@ -100,7 +100,7 @@ int free_list(node *head)
 
 	temp = NULL;
 
-	while(head != NULL)
+	while (head != NULL)
 	{
 		temp = head;
 		head = head->next;
@@ -109,6 +109,3 @@ int free_list(node *head)
 
 	return SUCCESS;
 }
-
-
-
