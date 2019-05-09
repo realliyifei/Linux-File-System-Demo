@@ -134,9 +134,9 @@ node *search_by_modification_time(char *min, node *filelist)
 
             stat(temp->filepath, &buf);
 
-            printf("the filepath: %s\n", temp->filepath);
+            //printf("the filepath: %s\n", temp->filepath);
 
-            printf("modified time: %s\n", ctime(&buf.st_mtime));
+            //printf("modified time: %s\n", ctime(&buf.st_mtime));
             if ((time(NULL) - buf.st_mtime) >= (i_min * 60))
             {
                 if (S_ISREG(buf.st_mode))
@@ -160,9 +160,9 @@ node *search_by_modification_time(char *min, node *filelist)
         {
 
             result = stat(temp->filepath, &buf);
-            printf("the filepath: %s\n", temp->filepath);
+            //printf("the filepath: %s\n", temp->filepath);
 
-            printf("modified time: %s\n", ctime(&buf.st_mtime));
+            //printf("modified time: %s\n", ctime(&buf.st_mtime));
             if ((time(NULL) - buf.st_mtime) < (i_min * 60))
             {
                 add_node(&tail, temp->filepath);
@@ -182,8 +182,8 @@ node *search_by_modification_time(char *min, node *filelist)
         {
 
             result = stat(temp->filepath, &buf);
-            printf("the filepath: %s\n", temp->filepath);
-            printf("modified time %s\n", ctime(&buf.st_mtime));
+            //printf("the filepath: %s\n", temp->filepath);
+            //printf("modified time %s\n", ctime(&buf.st_mtime));
             if ((int)((time(NULL) - buf.st_mtime) / 60) == (i_min))
             {
                 if (S_ISREG(buf.st_mode))
