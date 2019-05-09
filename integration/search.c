@@ -223,7 +223,7 @@ node *search_by_inode(char *inum, node *filelist)
     {
         return NULL;
     }
-    e_node(&final_filelist, "");
+    create_node(&final_filelist, "");
     tail = final_filelist;
 
     while (temp != NULL)
