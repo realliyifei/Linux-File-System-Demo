@@ -103,7 +103,5 @@ int main()
 
 	result = process_input(tokens);
 
-	printf("%s\n", "Test: main ends");
-
 	return result;
 }
