@@ -119,10 +119,7 @@ node* search_by_modification_time(char* min, node* filelist)
     // printf("creat new node\n");
     if (min[0] == '+')
     {
-        //test
-        printf("search.c min[0]+ -> before atoi token3: %s\n", min);
         i_min = atoi((min) + 1);
-        printf("search.c min[0]+ -> after atoi token3: %s\n", min);
         printf("minutes after '+': %d \n", i_min);
 
         while ((temp->filepath) != NULL)
