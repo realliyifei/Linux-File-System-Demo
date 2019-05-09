@@ -67,8 +67,8 @@ node *search_by_name(char *name, node *filelist)
         // Find the Position of the Last Slash "/" And Dot "."
         begin_position = find_symbol_position(filepath, '/');
         // test whether given search name contains dot "."
-        char* name_dot_finder = strchr(name, '.');
-        int dot_position = (name_dot_finder==NULL) ? -1: (name_dot_finder - name); 
+        char *name_dot_finder = strchr(name, '.');
+        int dot_position = (name_dot_finder == NULL) ? -1 : (name_dot_finder - name);
         // when given search name doesn't contain dot,
         // catch "filename" by setting the last dot in filepath as end position
         if (name_dot_finder == 0)
@@ -106,10 +106,7 @@ node *search_by_name(char *name, node *filelist)
  */
 node *search_by_modification_time(char *min, node *filelist)
 {
-    // time_t t;
-    // struct tm *timeinfo;
-    // time(&t);
-    // timeinfo = localtime(&t);
+
     struct stat buf;
 
     node *final_filelist;
@@ -120,14 +117,13 @@ node *search_by_modification_time(char *min, node *filelist)
     int result;
     if (filelist == NULL)
     {
-        //  printf("filelist is empty.\n");
+
         return NULL;
     }
 
     create_node(&final_filelist, "");
     tail = final_filelist;
 
-    // printf("creat new node\n");
     if (min[0] == '+')
     {
         i_min = atoi((min) + 1);
