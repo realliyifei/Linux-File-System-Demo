@@ -71,7 +71,7 @@ int convert_user_instruction(char user_input[], char* tokens[])
 
  	for (int i = 0; i < MAXTOKEN; ++i)
  	{
- 		tokens[i] = tokens_2d[i];
+ 		strcpy(tokens[i], tokens_2d[i]);
  	}
 
     return SUCCESS;
