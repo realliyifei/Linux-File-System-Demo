@@ -97,7 +97,8 @@ node *process_criteria(char *token2, char *token3, node *filelist)
     {
         print_error_msg("Invalid Syntax: Criteria should be -name, -mmin or -inum"); /* criteria is not valid */
     }
-
+    if(qualified_list == NULL)
+	printf("Without qualified file!\n");
     return qualified_list;
 }
 
