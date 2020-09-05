@@ -1,4 +1,5 @@
-# Oper-System-Project3
+# Opering System Project3 - C File System Demo
+
 It is a demo for file search program on Linux.
 
 ## The Purpose of the Project
