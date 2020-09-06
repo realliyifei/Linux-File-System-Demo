@@ -1,4 +1,4 @@
-# Opering System Project3 - Linux File System Demo
+# Operating System Project3 - Linux File System Demo
 
 It is a demo for file search program on Linux.
 
