@@ -11,6 +11,7 @@ In this project, by creating a simple version of Linux “find” utility in the
 By simulating the find function involving directory file list extraction, we can learn the mechanism behind the Linux file system. By simulating the criteria and delete function, we can explore the concept of “file” in Linux in terms of its definition, category and usage. For example, inode which stores the attributes and disk block location(s) of the file, is a critical concept in the Linux file system. After implementing inode-related functions, we develop a deeper understanding of the concept. Upon completion of the project, we practice the concepts learned in our class and gain insight into the operating system used everyday. 
 
 ## The flowchart
+
 ![image](./image/flowchart.png)
 
 ## Explanation
