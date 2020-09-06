@@ -1,8 +1,9 @@
 # Operating System Project3 - Linux File System Demo
 
-It is a demo for file search program on Linux.
+It is a demo for file search program on Linux, where users can find and delete files by various metadata.
 
 ## The Purpose of the Project
+
 The Linux file system plays an important role in the programming world. Linux and other Unix-like operating systems maintain stability by treating everything as a file, including input devices, hard-disks, processes, and even the directories. In other words, files are the basic blocks in the programming world and thus an elegant file management system is critical. 
 
 In this project, by creating a simple version of Linux “find” utility in the file system, we, as students, can understand the lower level of system structure deeply. 
@@ -10,9 +11,10 @@ In this project, by creating a simple version of Linux “find” utility in the
 By simulating the find function involving directory file list extraction, we can learn the mechanism behind the Linux file system. By simulating the criteria and delete function, we can explore the concept of “file” in Linux in terms of its definition, category and usage. For example, inode which stores the attributes and disk block location(s) of the file, is a critical concept in the Linux file system. After implementing inode-related functions, we develop a deeper understanding of the concept. Upon completion of the project, we practice the concepts learned in our class and gain insight into the operating system used everyday. 
 
 ## The flowchart
-![image](https://github.com/GFreeDay/Oper-System-Project3/blob/master/image/flowchart.png)
+![image](./image/flowchart.png)
 
 ## Explanation
+
 **Node.h** is comprised of a pointer to char that stores the file path of the current node and a pointer that points to the next node. 
 
 **Listedlist.c** is a controller of nodes, allowing the users to create, add, and remove the nodes and free the memory. 
