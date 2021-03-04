@@ -1,5 +1,7 @@
 # Operating System Project3 - Linux File System Demo
 
+**Authors**: Fangda Guo, Hui Xiao, Yifei Li, Zhiming Zou 
+
 It is a demo for file search program on Linux, where users can find and delete files by various metadata.
 
 ## The Purpose of the Project
